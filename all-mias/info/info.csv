@@ -1,3 +1,4 @@
+reference_number Character_of_background_tissue Class_of_abnormality_present Severity_of_abnormality x_image-coordinates_of_centre_of_abnormality y_image-coordinates_of_centre_of_abnormality Approximate_radius_(in_pixels)_of_a_circle_enclosing_the_abnormality
 mdb001 G CIRC B 535 425 197
 mdb002 G CIRC B 522 280 69
 mdb003 D NORM
