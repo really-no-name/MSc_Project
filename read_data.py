@@ -20,3 +20,11 @@ class MyData(Dataset):
 
     def __len__(self):
         return len(self.img_names)
+
+
+root_dir = 'all-mias/image'
+csv_file = 'all-mias/info/info_clean.csv'
+mini_mias = MyData(root_dir, csv_file)
+img, label = mini_mias[0]
+img.show()
+print(label)
