@@ -2,7 +2,7 @@ from torch.utils.tensorboard import SummaryWriter
 from MyData import MyData
 from torch.utils.data import DataLoader
 
-# transform =
+transform =
 
 # 数据集和数据加载器
 root_dir = 'path_to_images'
