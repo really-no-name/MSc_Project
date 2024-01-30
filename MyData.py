@@ -5,15 +5,22 @@ from torch.utils.data import Dataset  # 是 PyTorch 中用于创建自定义数�
 
 
 class MyData(Dataset):
-    def __init__(self, root_dir, csv_file, transform=None):
+    def __init__(self, root_dir, csv_file, mode,  transform=None):
         self.root_dir = root_dir
-        self.csv_file = pd.read_csv(csv_file)
-        self.img_names = self.csv_file.iloc[:, 0]  # 假设第一列是图片名称
+        self.csv_data = pd.read_csv(csv_file)
+        self.mode = mode
+        # self.img_names = self.csv_file.iloc[:, 0]  # 假设第一列是图片名称
         self.transform = transform
 
+        # 根据csv最后一列划分
+        if mode == 'Train':
+            self.data = self.csv_data[self.csv_data['TrainTest'] == 'Train']
+        elif mode == 'Test':
+            self.data = self.csv_data[self.csv_data['TrainTest'] == 'Test']
+
     def __getitem__(self, index):
-        img_name = self.img_names[index]
-        img_path = os.path.join(self.root_dir, img_name)
+        # img_name = self.img_names[index]
+        img_path = os.path.join(self.root_dir, self.data.iloc[index, 0])
         img = Image.open(img_path).convert('L')  # 确保灰度图
 
         if self.transform:
