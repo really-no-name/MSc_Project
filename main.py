@@ -1,6 +1,7 @@
 from torch.utils.tensorboard import SummaryWriter
-from MyData import MyData
 from torch.utils.data import DataLoader
+from MyData import MyData
+from UncertaintyCNN import UncertaintyCNN
 
 transform =
 

@@ -1,3 +1,7 @@
+# 数据集类
+# 分别读取图像及其对应标签
+# 划分训练集和测试集
+
 import os  # 与操作系统进行交互
 import pandas as pd  # 处理 CSV 文件
 from PIL import Image  # (Python Imaging Library) 用于图像处理

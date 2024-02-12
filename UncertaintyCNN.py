@@ -11,6 +11,7 @@ class UncertaintyCNN(nn.Module):
         self.pool = nn.MaxPool2d(2,2)  # 池化层，减少数据量
 
 
+
     def forward(self, x, apply_dropout=False):
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
