@@ -4,8 +4,10 @@
 
 import os  # 与操作系统进行交互
 import pandas as pd  # 处理 CSV 文件
+import torch
 from PIL import Image  # (Python Imaging Library) 用于图像处理
 from torch.utils.data import Dataset  # 是 PyTorch 中用于创建自定义数据集的基类
+from torchvision import transforms
 
 
 class MyData(Dataset):
@@ -29,18 +31,20 @@ class MyData(Dataset):
 
         if self.transform:
             img = self.transform(img)
+        else:
+            img = transforms.ToTensor(img)
 
         # 读取 label_1 到 label_6
-        labels = self.csv_file.iloc[index, 1:7].values
+        labels = torch.tensor(self.data.iloc[index, 1:7].values)
         return img, labels
 
     def __len__(self):
-        return len(self.img_names)
+        return len(self.data)
 
 
-root_dir = 'all-mias/image'
-csv_file = 'all-mias/info/info_clean.csv'
-mini_mias = MyData(root_dir, csv_file)
-img, label = mini_mias[0]
-img.show()
-print(label)
+# root_dir = 'all-mias/image'
+# csv_file = 'all-mias/info/info_clean.csv'
+# mini_mias = MyData(root_dir, csv_file)
+# img, label = mini_mias[0]
+# img.show()
+# print(label)
