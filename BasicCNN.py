@@ -9,7 +9,7 @@ from sklearn.preprocessing import LabelEncoder
 
 
 # 检查GPU
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # 读取 CSV 文件
 csv_file_path = 'all-mias/info/info_clean.csv'
@@ -57,8 +57,8 @@ train_dataset = MyData(root_dir='all-mias/image', data_frame=train_df, transform
 test_dataset = MyData(root_dir='all-mias/image', data_frame=test_df, transform=transform)
 
 # 创建 DataLoader
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=2, shuffle=False)
 
 # CNN 网络类
 class UncertaintyCNN(torch.nn.Module):
@@ -81,13 +81,14 @@ class UncertaintyCNN(torch.nn.Module):
         return x
 
 # 初始化模型和优化器
-model = UncertaintyCNN().to(device)
+model = UncertaintyCNN()#.to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 # 训练过程
 num_epochs = 5
 for epoch in range(num_epochs):
     for images, labels in train_loader:
+        # images, labels = images.to(device), labels.to(device)
         outputs = model(images)
         loss = F.cross_entropy(outputs, labels)
 
@@ -103,7 +104,7 @@ with torch.no_grad():
     correct = 0
     total = 0
     for images, labels in test_loader:
-        images, labels = images.to(device), labels.to(device)
+        # images, labels = images.to(device), labels.to(device)
         outputs = model(images)
         _, predicted = torch.max(outputs.data, 1)
         total += labels.size(0)
