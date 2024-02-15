@@ -7,6 +7,10 @@ import os
 import torch.nn.functional as F
 from sklearn.preprocessing import LabelEncoder
 
+
+# 检查GPU
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 # 读取 CSV 文件
 csv_file_path = 'all-mias/info/info_clean.csv'
 df = pd.read_csv(csv_file_path)
@@ -77,7 +81,7 @@ class UncertaintyCNN(torch.nn.Module):
         return x
 
 # 初始化模型和优化器
-model = UncertaintyCNN()
+model = UncertaintyCNN().to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 # 训练过程
@@ -99,6 +103,7 @@ with torch.no_grad():
     correct = 0
     total = 0
     for images, labels in test_loader:
+        images, labels = images.to(device), labels.to(device)
         outputs = model(images)
         _, predicted = torch.max(outputs.data, 1)
         total += labels.size(0)
