@@ -4,17 +4,17 @@ from PIL import Image
 import numpy as np
 
 
-def get_image_unique_values(directory):
+def get_image_details(directory):
     """
-    读取指定文件夹下的所有PNG格式掩码图像，返回每张图像中的所有唯一值。
+    读取指定文件夹下的所有PNG格式掩码图像，返回每张图像中的所有唯一值和左上角第一个像素的值。
 
     参数:
     directory (str): 图像文件夹的路径
 
     返回:
-    dict: 包含每张图像的所有唯一值的字典
+    dict: 包含每张图像的所有唯一值和左上角第一个像素值的字典
     """
-    unique_values = {}
+    image_details = {}
 
     # 遍历目录中的所有文件
     for filename in os.listdir(directory):
@@ -24,11 +24,16 @@ def get_image_unique_values(directory):
             image_array = np.array(image)
 
             # 获取图像中的所有唯一值
-            values = np.unique(image_array)
+            unique_values = np.unique(image_array)
+            # 获取左上角第一个像素的值
+            top_left_pixel_value = image_array[0, 0]
 
-            unique_values[filename] = values
+            image_details[filename] = {
+                'unique_values': unique_values,
+                'top_left_pixel': top_left_pixel_value
+            }
 
-    return unique_values
+    return image_details
 
 
 if __name__ == "__main__":
@@ -38,8 +43,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     directory = args.path  # 将这里替换为你的文件夹路径
-    unique_values_dict = get_image_unique_values(directory)
+    image_details_dict = get_image_details(directory)
 
-    # 打印每张图像的所有唯一值
-    for image_name, values in unique_values_dict.items():
-        print(f"Image: {image_name}, Unique Values: {values}")
+    # 打印每张图像的所有唯一值和左上角第一个像素值
+    for image_name, details in image_details_dict.items():
+        unique_values = details['unique_values']
+        top_left_pixel = details['top_left_pixel']
+        print(f"Image: {image_name}, Unique Values: {unique_values}, Top Left Pixel: {top_left_pixel}")

@@ -12,8 +12,13 @@ def read_mask_image(path):
 
 
 # 保存结果为PNG图像
-def save_mask_image(mask, path):
-    img = Image.fromarray(mask.astype(np.uint8))
+def save_mask_image(mask, path, is_uncertainty=False):
+    if is_uncertainty:
+        # 将不确定性结果归一化到0-255
+        mask = (255 * (mask - mask.min()) / (mask.max() - mask.min())).astype(np.uint8)
+    else:
+        mask = mask.astype(np.uint8)
+    img = Image.fromarray(mask)
     img.save(path)
 
 
@@ -42,7 +47,7 @@ def display_image(image, title):
     plt.show()
 
 
-def main(name):
+def main(name, source, show):
     # 掩码图像路径
     mask_paths = [
         'dataset/Gleason19/resized_dataset_1024/Maps/Maps1_T/' + name + '.png',
@@ -58,33 +63,47 @@ def main(name):
     for i, path in enumerate(mask_paths):
         array, image = read_mask_image(path)
         masks.append(array)
-        display_image(array, f"Mask Image {i + 1}")
         print(f"Mask Image {i + 1} value range: {array.min()} - {array.max()}")
 
     # 使用平均法结合不同类别，并计算不确定性
     average_result, uncertainty_result = average_prob_with_classes(masks)
 
+    # 输出不确定性图的值的范围
+    uncertainty_min = np.min(uncertainty_result)
+    uncertainty_max = np.max(uncertainty_result)
+    print(f"不确定性图的值范围: 最小值={uncertainty_min}, 最大值={uncertainty_max}")
+
     # 保存融合结果
-    output_path_average = 'test/' + name + '_AV.png'
+    output_path_average = source + '/' + name + '_AV.png'
     save_mask_image(average_result, output_path_average)
 
     # 保存不确定性结果
-    output_path_uncertainty = 'test/' + name + '_AV_UE.png'
-    save_mask_image(uncertainty_result, output_path_uncertainty)
+    output_path_uncertainty = source + '/' + name + '_AV_UE.png'
+    save_mask_image(uncertainty_result, output_path_uncertainty, is_uncertainty=True)
 
-    # 显示融合结果
-    display_image(average_result, 'Average with Classes Result')
+    if show == 'on':
+        # 显示融合结果
+        display_image(average_result, 'Average with Classes Result')
 
-    # 显示不确定性结果
-    display_image(uncertainty_result, 'Uncertainty Result')
+        # 显示不确定性结果
+        display_image(uncertainty_result, 'Uncertainty Result')
 
     print(output_path_average, output_path_uncertainty)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Average Prob.多类别平均法')
+    parser.add_argument('-m', '--mode', type=str, required=True, choices=['train', 'test'],
+                        help='The mode to run the staple')
     parser.add_argument('-n', '--name', type=str, required=True, help='Name of image')
+    parser.add_argument('-show', '--show', choices=['on', 'off'], required=True,
+                        help='Whether to show the image or not')
 
     args = parser.parse_args()
 
-    main(args.name)
+    if args.mode == 'train':
+        source = 'Train_imgs'
+    elif args.mode == 'test':
+        source = 'Test_imgs'
+
+    main(args.name, source, args.show)
