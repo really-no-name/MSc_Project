@@ -31,10 +31,10 @@ def resize_and_pad_image(input_folder, output_folder, size=(1024, 1024)):
                     # 处理文件名
                     base_name, _ = os.path.splitext(filename)
                     parts = base_name.split('_')
-                    if len(parts) > 2:
-                        new_base_name = '_'.join(parts[:2])
-                    else:
-                        new_base_name = base_name
+                    # if len(parts) > 2:
+                    #     new_base_name = '_'.join(parts[:2])
+                    # else:
+                    new_base_name = base_name
 
                     output_filename = new_base_name + ".png"
                     output_path = os.path.join(output_folder, output_filename)
@@ -45,6 +45,6 @@ def resize_and_pad_image(input_folder, output_folder, size=(1024, 1024)):
                 print(f"Error processing {input_path}: {e}")
 
 if __name__ == "__main__":
-    input_folder = "Source/Maps6_T"  # 输入文件夹的路径
-    output_folder = "resized_dataset_1024/Maps/Maps6_T"  # 输出文件夹的路径
+    input_folder = "/Users/Google_Drive/dataset/Arvaniti_TMA/restructured_dataset/Maps/Maps2_T"  # 输入文件夹的路径
+    output_folder = "/Users/Google_Drive/dataset/Arvaniti_TMA/resize_1024/Maps/Maps2_T"  # 输出文件夹的路径
     resize_and_pad_image(input_folder, output_folder)

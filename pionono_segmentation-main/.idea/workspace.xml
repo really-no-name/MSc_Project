@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="86a73957-02ce-45f4-b387-d883bbaefc3a" name="更改" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/data.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/test_model.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/test_model1.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/test_model2.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/utils/saving.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2h3PbjMh0Ec8BbmOLFgW5qmSCTX" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showScratchesAndConsoles" value="false" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/Google_Drive/pionono_segmentation-main/dataset_dependent/gleason19&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dataset_dependent/gleason19" />
+      <recent name="$PROJECT_DIR$/experiment" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/preprocessing_tools" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.17890.14" />
+        <option value="bundled-python-sdk-5b207ade9991-7e9c3bbb6e34-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.17890.14" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="86a73957-02ce-45f4-b387-d883bbaefc3a" name="更改" comment="" />
+      <created>1716819860311</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1716819860311</updated>
+      <workItem from="1718629949895" duration="13015000" />
+      <workItem from="1718645128559" duration="16000" />
+      <workItem from="1718727405203" duration="21921000" />
+      <workItem from="1718917463217" duration="7843000" />
+      <workItem from="1719226333505" duration="6490000" />
+      <workItem from="1719516881593" duration="1939000" />
+      <workItem from="1719520853748" duration="4420000" />
+      <workItem from="1719561954837" duration="4278000" />
+      <workItem from="1719782742848" duration="1044000" />
+      <workItem from="1719856184731" duration="6000" />
+      <workItem from="1719871889677" duration="842000" />
+      <workItem from="1719941338678" duration="294000" />
+      <workItem from="1719947468364" duration="3000" />
+      <workItem from="1719955935352" duration="2168000" />
+      <workItem from="1719976675793" duration="616000" />
+      <workItem from="1720793223470" duration="2092000" />
+      <workItem from="1721128411764" duration="7000" />
+      <workItem from="1721608763975" duration="59411000" />
+      <workItem from="1722422436968" duration="2631000" />
+      <workItem from="1722426107395" duration="1844000" />
+      <workItem from="1722443189104" duration="30000" />
+      <workItem from="1722605974906" duration="626000" />
+      <workItem from="1722691558564" duration="598000" />
+      <workItem from="1722791219022" duration="2679000" />
+      <workItem from="1722832887971" duration="85888000" />
+      <workItem from="1723201398235" duration="3446000" />
+      <workItem from="1723377348022" duration="1656000" />
+      <workItem from="1723416789362" duration="1690000" />
+      <workItem from="1723717121790" duration="12000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

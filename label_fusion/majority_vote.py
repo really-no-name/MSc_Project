@@ -4,24 +4,47 @@ from scipy.stats import mode
 from PIL import Image
 import matplotlib.pyplot as plt
 
-# 读取PNG掩码图像
-def read_mask_image(path):
-    return np.array(Image.open(path).convert('L'))
+# 读取PNG掩码图像并转换为类别标签
+def read_mask_image(path, class_colors_rgb):
+    mask = np.array(Image.open(path))
+    label_mask = np.zeros((mask.shape[0], mask.shape[1]), dtype=np.uint8)
+    for label, color in enumerate(class_colors_rgb):
+        matches = np.all(mask == color, axis=-1)
+        label_mask[matches] = label
+        print(f"颜色 {color} 匹配的像素数量: {np.sum(matches)}")
+    print(f"读取的图像路径: {path}")
+    print(f"读取的图像唯一值: {np.unique(mask.reshape(-1, mask.shape[2]), axis=0)}")
+    print(f"转换后的标签掩码唯一值: {np.unique(label_mask)}")
+    return label_mask
 
-# 保存结果为PNG图像
-def save_mask_image(mask, path):
-    img = Image.fromarray(mask.astype(np.uint8))
+# 保存结果为彩色PNG图像
+def save_colored_mask_image(mask, path, class_colors_rgb):
+    color_mask = np.zeros((mask.shape[0], mask.shape[1], 3), dtype=np.uint8)
+    for label, color in enumerate(class_colors_rgb):
+        color_mask[mask == label] = color
+    img = Image.fromarray(color_mask)
     img.save(path)
+    print(f"保存的彩色掩码图像路径: {path}")
+    print(f"保存的彩色掩码图像唯一值: {np.unique(color_mask.reshape(-1, color_mask.shape[2]), axis=0)}")
+
+# 保存结果为灰度PNG图像
+def save_grayscale_image(image, path):
+    img = Image.fromarray(image.astype(np.uint8))
+    img.save(path)
+    print(f"保存的灰度图像路径: {path}")
+    print(f"保存的灰度图像唯一值: {np.unique(image)}")
 
 # 多数投票法
 def majority_vote(preds):
     stacked_preds = np.stack(preds)
     majority_vote_result = mode(stacked_preds, axis=0)[0].squeeze()
+    print(f"多数投票结果唯一值: {np.unique(majority_vote_result)}")
     return majority_vote_result, stacked_preds
 
 # 计算不确定性
 def calculate_uncertainty(stacked_preds):
     variance = np.var(stacked_preds, axis=0)
+    print(f"计算的不确定性唯一值: {np.unique(variance)}")
     return variance
 
 # 生成不确定性图并保存
@@ -31,13 +54,13 @@ def save_uncertainty_map(uncertainty, path):
     plt.colorbar(label='Uncertainty')
     plt.title('Uncertainty Map')
     plt.savefig(path)
-    # plt.show()
     plt.close()
+    print(f"保存的不确定性图路径: {path}")
 
-def main(name, mask_paths, source):
+def main(name, mask_paths, source, read_colors_rgb, save_colors_rgb):
     mask_paths = mask_paths
     # 读取掩码图像
-    pred_masks = [read_mask_image(path) for path in mask_paths]
+    pred_masks = [read_mask_image(path, read_colors_rgb) for path in mask_paths]
 
     # 使用多数投票法融合
     majority_result, stacked_preds = majority_vote(pred_masks)
@@ -52,11 +75,11 @@ def main(name, mask_paths, source):
 
     # 保存融合结果
     output_path_majority = source + '/' + name + '_MV.png'
-    save_mask_image(majority_result, output_path_majority)
+    save_colored_mask_image(majority_result, output_path_majority, save_colors_rgb)
 
     # 保存不确定性结果
     output_path_uncertainty = source + '/' + name + '_MV_UE.png'
-    save_mask_image(uncertainty, output_path_uncertainty)
+    save_grayscale_image(uncertainty, output_path_uncertainty)
 
     # 保存不确定性图
     output_path_uncertainty_map = source + '/' + name + '_MV_UE_l.png'
@@ -66,7 +89,6 @@ def main(name, mask_paths, source):
     print("不确定性估计结果已保存为 " + name + "_MV_UE.png")
     print("不确定性估计图已保存为 " + name + "_MV_UE_l.png")
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Majority Vote, 多数投票法，带不确定性估计')
     parser.add_argument('-m', '--mode', type=str, required=True, choices=['train', 'test'], help='The mode to run the staple')
@@ -75,20 +97,36 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.mode == 'train':
-        source = 'Train_imgs'
+        source = '/Users/Google_Drive/dataset/Gleason19/label_fusion/Train_imgs'
     elif args.mode == 'test':
-        source = 'Test_imgs'
+        source = '/Users/Google_Drive/dataset/Gleason19/label_fusion/Test_imgs'
 
     name = args.name
     # 掩码图像路径 - 请将这些路径替换为实际路径
     mask_paths = [
-        'dataset/Gleason19/resized_dataset_1024/Maps/Maps1_T/' + name + '.png',
-        'dataset/Gleason19/resized_dataset_1024/Maps/Maps2_T/' + name + '.png',
-        'dataset/Gleason19/resized_dataset_1024/Maps/Maps3_T/' + name + '.png',
-        'dataset/Gleason19/resized_dataset_1024/Maps/Maps4_T/' + name + '.png',
-        'dataset/Gleason19/resized_dataset_1024/Maps/Maps5_T/' + name + '.png',
-        'dataset/Gleason19/resized_dataset_1024/Maps/Maps6_T/' + name + '.png'
+        '/Users/Google_Drive/dataset/Gleason19/output/Maps/Maps1_T/pred_' + name + '_mean.png',
+        '/Users/Google_Drive/dataset/Gleason19/output/Maps/Maps2_T/pred_' + name + '_mean.png',
+        '/Users/Google_Drive/dataset/Gleason19/output/Maps/Maps3_T/pred_' + name + '_mean.png',
+        '/Users/Google_Drive/dataset/Gleason19/output/Maps/Maps4_T/pred_' + name + '_mean.png',
+        '/Users/Google_Drive/dataset/Gleason19/output/Maps/Maps5_T/pred_' + name + '_mean.png',
+        '/Users/Google_Drive/dataset/Gleason19/output/Maps/Maps6_T/pred_' + name + '_mean.png'
     ]
 
-    main(name, mask_paths, source)
+    # 定义RGB颜色映射
+    READ_COLORS_RGB = [
+        [96, 255, 128],   # 类别0的颜色
+        [255, 224, 32],   # 类别1的颜色
+        [255, 104, 0],    # 类别2的颜色
+        [255, 0, 0],      # 类别3的颜色
+        [255, 255, 255]   # 类别4的颜色
+    ]
 
+    SAVE_COLORS_RGB = [
+        [96, 255, 128],  # 类别0的颜色
+        [255, 224, 32],  # 类别1的颜色
+        [255, 104, 0],  # 类别2的颜色
+        [255, 0, 0],  # 类别3的颜色
+        [255, 255, 255]  # 类别4的颜色
+    ]
+
+    main(name, mask_paths, source, READ_COLORS_RGB, SAVE_COLORS_RGB)

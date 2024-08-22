@@ -47,17 +47,7 @@ def display_image(image, title):
     plt.show()
 
 
-def main(name, source, show):
-    # 掩码图像路径
-    mask_paths = [
-        'dataset/Gleason19/resized_dataset_1024/Maps/Maps1_T/' + name + '.png',
-        'dataset/Gleason19/resized_dataset_1024/Maps/Maps2_T/' + name + '.png',
-        'dataset/Gleason19/resized_dataset_1024/Maps/Maps3_T/' + name + '.png',
-        'dataset/Gleason19/resized_dataset_1024/Maps/Maps4_T/' + name + '.png',
-        'dataset/Gleason19/resized_dataset_1024/Maps/Maps5_T/' + name + '.png',
-        'dataset/Gleason19/resized_dataset_1024/Maps/Maps6_T/' + name + '.png'
-    ]
-
+def main(name, mask_paths, source, show):
     # 读取并显示每个掩码图像和其数值范围
     masks = []
     for i, path in enumerate(mask_paths):
@@ -106,4 +96,8 @@ if __name__ == '__main__':
     elif args.mode == 'test':
         source = 'Test_imgs'
 
-    main(args.name, source, args.show)
+    mask_paths = [
+        f'/Users/Google_Drive/dataset/Gleason19/output/Maps/Maps{i}_T/pred_{args.name}_mean.png' for i in range(1, 7)
+    ]
+
+    main(args.name, mask_paths, source, args.show)
