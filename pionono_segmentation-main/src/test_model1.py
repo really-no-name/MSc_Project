@@ -13,13 +13,14 @@ from utils.mlflow_logger import log_results_list, log_artifact_folder, set_test_
 from utils.initialize_model import init_model
 from data import get_data
 
+
 def load_pretrained_model(annotators, model_path, device):
     """
     加载预训练模型
     """
     model = init_model(annotators)
     model.to(device)  # 将模型移动到指定设备
-    
+
     # 确保模型文件存在，然后加载模型权重
     if os.path.exists(model_path):
         try:
@@ -39,8 +40,9 @@ def load_pretrained_model(annotators, model_path, device):
             raise
     else:
         raise FileNotFoundError(f"模型文件不存在: {model_path}")
-        
+
     return model, device
+
 
 def load_unlabeled_data(img_dir, device):
     """
@@ -50,7 +52,7 @@ def load_unlabeled_data(img_dir, device):
         transforms.Resize((1024, 1024)),  # 调整图像大小
         transforms.ToTensor(),  # 转换为张量
     ])
-    
+
     img_files = sorted(os.listdir(img_dir))  # 获取图像文件列表
     images = []
     image_names = []
@@ -67,6 +69,7 @@ def load_unlabeled_data(img_dir, device):
     print("图像名称示例:", image_names[:5])
 
     return images, image_names
+
 
 def predict_and_save_maps(model, images, image_names, output_dir, device):
     """
@@ -101,14 +104,17 @@ def predict_and_save_maps(model, images, image_names, output_dir, device):
             pred_img.save(save_path)
             print(f"保存分割图像: {save_path}")
 
+
 if __name__ == "__main__":
     print('加载配置文件')
     parser = argparse.ArgumentParser(description="Cancer Classification")
     parser.add_argument("--config", "-c", type=str, default="./config.yaml",
                         help="Config path (yaml file expected) to default config.")
-    parser.add_argument("--dataset_config", "-dc", type=str, default="./dataset_dependent/gleason19/data_configs/data_config_crossval0.yaml",
+    parser.add_argument("--dataset_config", "-dc", type=str,
+                        default="./dataset_dependent/gleason19/data_configs/data_config_crossval0.yaml",
                         help="Config path (yaml file expected) to dataset config. Parameters will override defaults.")
-    parser.add_argument("--experiment_folder", "-ef", type=str, default="./dataset_dependent/gleason19/experiments/cross_validation/pionono/cval0",
+    parser.add_argument("--experiment_folder", "-ef", type=str,
+                        default="./dataset_dependent/gleason19/experiments/cross_validation/pionono/cval0",
                         help="Config path to experiment folder. This folder is expected to contain a file called "
                              "'exp_config.yaml'. Parameters will override defaults. Optional.")
     parser.add_argument("--model_path", "-m", type=str, required=True,
@@ -118,7 +124,7 @@ if __name__ == "__main__":
     parser.add_argument("--output_dir", type=str, required=True,
                         help="Path to the directory to save the generated maps.")
     args = parser.parse_args()
-    
+
     # 初始化全局配置
     init_global_config(args)
     config = globals.config
