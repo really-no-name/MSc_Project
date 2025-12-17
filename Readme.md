@@ -2,6 +2,8 @@ Using the dataset from The mini-MIAS database of mammograms. http://peipa.essex.
 
 pionono model from https://github.com/arneschmidt/pionono_segmentation.git , Jupyter notebook only for running debugging in Google colab
 
+!! Currently, some packages in this file `pionono_segmentation-main\requirements.txt` have security vulnerabilities. Please try to use the latest version.
+
 
 Glason 2019 dataset (https://gleason2019.grand-challenge.org/Home/ ): Nir G, Hor S, Karimi D, Fazli L, Skinnider BF, Tavassoli P, Turbin D, Villamil CF, Wang G, Wilson RS, Iczkowski KA. Automated grading of prostate cancer in digital histopathological images: learning from multiple experts. Medical Image Analysis. 2018 Dec 1;50:167-80.
 The procedures in the document were used to process the dataset
